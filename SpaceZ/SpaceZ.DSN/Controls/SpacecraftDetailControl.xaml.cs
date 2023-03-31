@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace SpaceZ.DSN.Controls
 {
     /// <summary>
-    /// SpacecraftControl.xaml 的交互逻辑
+    /// Interaction logic for SpacecraftControl.xaml
     /// </summary>
     public partial class SpacecraftDetailControl : UserControl
     {
