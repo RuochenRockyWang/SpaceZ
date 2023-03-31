@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SpaceZ.Payload": {
+      "commandName": "Project",
+      "commandLineArgs": "-n GPM -t Scientific -tto 10"
+    }
+  }
+}

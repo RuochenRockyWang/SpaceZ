@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SpaceZ.LaunchVehicle": {
+      "commandName": "Project",
+      "commandLineArgs": "-n Bird-9 -o 600 -pn GPM -pt Scientific"
+    }
+  }
+}

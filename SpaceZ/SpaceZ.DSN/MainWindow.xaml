@@ -1,0 +1,189 @@
+﻿<Window x:Class="SpaceZ.DSN.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpaceZ.DSN"
+        xmlns:vm="clr-namespace:SpaceZ.DSN.ViewModel"
+        xmlns:control="clr-namespace:SpaceZ.DSN.Controls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Thickness x:Key="ListViewItemMargin">10</Thickness>
+            <ContextMenu x:Key="ActiveLaunchVehicleMenu">
+                <MenuItem Header="DeployPayload"
+                          Command="{Binding SendCommand}"
+                          CommandParameter="DeployPayload"/>
+                <MenuItem Header="Deorbit"
+                                          Command="{Binding SendCommand}"
+                                          CommandParameter="Deorbit"/>
+                <MenuItem Header="StartTelemetry"
+                                          Command="{Binding SendCommand}"
+                                          CommandParameter="StartTelemetry"/>
+                <MenuItem Header="StopTelemetry"
+                                          Command="{Binding SendCommand}"
+                                          CommandParameter="StopTelemetry"/>
+            </ContextMenu>
+
+            <ContextMenu x:Key="ActivePayloadMenu">
+                <MenuItem Header="StartData"
+                        Command="{Binding SendCommand}"
+                        CommandParameter="StartData"/>
+                <MenuItem Header="StopData"
+                        Command="{Binding SendCommand}"
+                        CommandParameter="StopData"/>
+                <MenuItem Header="Decommission"
+                        Command="{Binding SendCommand}"
+                        CommandParameter="Decommission"/>
+                <MenuItem Header="StartTelemetry"
+                        Command="{Binding SendCommand}"
+                        CommandParameter="StartTelemetry"/>
+                <MenuItem Header="StopTelemetry"
+                        Command="{Binding SendCommand}"
+                        CommandParameter="StopTelemetry"/>
+            </ContextMenu>
+
+            <ContextMenu x:Key="SleepLaunchVehicleMeu">
+                <MenuItem Header="Launch" 
+                          Command="{Binding LaunchCommand}"/>
+            </ContextMenu>
+            
+            <local:SpacecraftDataTempalteSelector x:Key="itemTemplateSelector">
+                <local:SpacecraftDataTempalteSelector.LaunchVehicleTemplate>
+                    <DataTemplate DataType="{x:Type vm:LaunchVehicleViewModel}">
+                        <Grid ContextMenu="{StaticResource ActiveLaunchVehicleMenu}"
+                              Margin="{StaticResource ListViewItemMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Row="0"
+                                   Height="60" Width="60"
+                                   Style="{DynamicResource LaunchIcon}"/>
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </local:SpacecraftDataTempalteSelector.LaunchVehicleTemplate>
+                <local:SpacecraftDataTempalteSelector.PayloadTemplate>
+                    <DataTemplate DataType="{x:Type vm:PayloadViewModel}">
+                        <Grid ContextMenu="{StaticResource ActivePayloadMenu}"
+                              Margin="{StaticResource ListViewItemMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Row="0"
+                                   Height="60" Width="60"
+                                   Style="{DynamicResource PayloadIcon}"/>
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding Name}"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </local:SpacecraftDataTempalteSelector.PayloadTemplate>
+            </local:SpacecraftDataTempalteSelector>
+
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="250"/> 
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Active" 
+                       FontWeight="Bold"/>
+
+            <ListView Grid.Row="1"
+                      SelectionMode="Single"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ItemsSource="{Binding ActiveSpacecrafts}"
+                      ItemTemplateSelector="{StaticResource itemTemplateSelector}"
+                      SelectedItem="{Binding Selected, Mode=OneWayToSource}"
+                      BorderBrush="{StaticResource Gray100Brush}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="Sleep"
+                       FontWeight="Bold"/>
+
+            <ListView Grid.Row="1"
+                      SelectionMode="Single"
+                      ItemsSource="{Binding SleepLaunchVehicles}"
+                      SelectedItem="{Binding Selected, Mode=OneWayToSource}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      BorderBrush="{StaticResource Gray100Brush}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ContextMenu="{StaticResource SleepLaunchVehicleMeu}"
+                              Margin="{StaticResource ListViewItemMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+
+                            <Image Grid.Row="0"
+                                   Height="60" Width="60"
+                                   Style="{DynamicResource LaunchIcon}"/>
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+
+        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="Details" 
+                       FontWeight="Bold"/>
+            <Border Grid.Row="1"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource Gray100Brush}">
+                <control:SpacecraftDetailControl DataContext="{Binding Selected}"/>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>

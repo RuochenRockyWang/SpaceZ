@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>$(SolutionDir)bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Images\planet0.png" />
+    <None Remove="Resources\Images\planet1.png" />
+    <None Remove="Resources\Images\planet2.png" />
+    <None Remove="Resources\Images\planet3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Images\planet0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\planet1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+	  <Content Include="Resources\Images\planet2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+	  <Content Include="Resources\Images\planet3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceZ.IPC\SpaceZ.IPC.csproj" />
+    <ProjectReference Include="..\SpaceZ.Model\SpaceZ.Model.csproj" />
+    <ProjectReference Include="..\SpaceZ.Util\SpaceZ.Util.csproj" />
+  </ItemGroup>
+
+</Project>

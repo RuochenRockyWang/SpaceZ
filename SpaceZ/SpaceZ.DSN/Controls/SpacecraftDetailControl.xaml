@@ -1,0 +1,247 @@
+﻿<UserControl x:Class="SpaceZ.DSN.Controls.SpacecraftDetailControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SpaceZ.DSN.Controls"
+             xmlns:vm="clr-namespace:SpaceZ.DSN.ViewModel"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:SpacecraftViewModel}">
+    <UserControl.Resources>
+        <GridLength x:Key="HeadHeight">40</GridLength>
+    </UserControl.Resources>
+    <ContentControl Content="{Binding}">
+        <ContentControl.Resources>
+            <DataTemplate DataType="{x:Type vm:LaunchVehicleViewModel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.Row="0"
+                           Style="{DynamicResource LaunchIcon}"/>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{StaticResource HeadHeight}"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                               Text="{Binding Name}" 
+                               FontWeight="Bold"
+                               FontSize="20"/>
+
+                        <StackPanel Grid.Row="1"
+                            Orientation="Horizontal">
+                            <TextBlock Text="{Binding Orbit, StringFormat='{}{0} km'}"
+                                       FontStyle="Italic"/>
+
+                            <TextBlock Text="{Binding Config.PayloadConfig.Name}"
+                                       FontStyle="Italic" Margin="5 0 0 0"/>
+                            
+                            <TextBlock Text="{Binding Config.PayloadConfig.Type}"
+                                       FontStyle="Italic" Margin="5 0 0 0"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="State: " />
+                            <TextBlock Text="{Binding State}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TabControl Grid.Row="2">
+                        <TabItem Header="Telemetry">
+                            <Grid Visibility="{Binding TelemetryVisibity}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="Altitude:"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Altitude, StringFormat='{}{0} km'}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="Longitude:"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Longtiude, StringFormat='{}{0} °'}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="Latitude:"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Latitude, StringFormat='{}{0} °'}" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0"
+                                   Text="Temperature:"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Temperature, StringFormat='{}{0} K'}" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0"
+                                   Text="Time to Orbit:"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1"
+                                   Text="{Binding TelemetryData.TimeToOrbit, StringFormat='{}{0} s'}" />
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:PayloadViewModel}">
+                <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.Row="0"
+                           Style="{DynamicResource PayloadIcon}"/>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{StaticResource HeadHeight}"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Text="{Binding Name}" 
+                                   FontWeight="Bold"
+                                   FontSize="20"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="{Binding Type}"
+                                   FontStyle="Italic"
+                                   Margin="5 0 0 0"/>
+
+                        <StackPanel Grid.Row="2"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="State: " />
+                            <TextBlock Text="{Binding State}"
+                                       Width="160"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TabControl Grid.Row="2">
+                        <TabItem Header="Telemetry">
+                            <Grid Visibility="{Binding TelemetryVisibity}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="Altitude:"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Altitude, StringFormat='{}{0} km'}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="Longitude:"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Longtiude, StringFormat='{}{0} °'}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="Latitude:"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Latitude, StringFormat='{}{0} °'}" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0"
+                                   Text="Temperature:"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1"
+                                   Text="{Binding TelemetryData.Temperature, StringFormat='{}{0} K'}" />
+
+                                <TextBlock Grid.Row="5" Grid.Column="0"
+                                   Text="Time to Orbit:"/>
+                                <TextBlock Grid.Row="5" Grid.Column="1"
+                                   Text="{Binding TelemetryData.TimeToOrbit, StringFormat='{}{0} s'}" />
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Scientific" 
+                                 Visibility="{Binding ScientificVisibility}">
+                            <Grid Visibility="{Binding ScientificVisibility}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="Rainfall:"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding WeatherData.Rainfall, StringFormat='{}{0} mm'}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="Humidty:"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding WeatherData.Humidty, StringFormat='{}{0} %'}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="Snow:"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding WeatherData.Snow, StringFormat='{}{0} in'}" />
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Communication"
+                                 Visibility="{Binding CommunicationVisibility}">
+                            <Grid Visibility="{Binding CommunicationVisibility}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="Uplink:"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding CommData.Uplink, StringFormat='{}{0} MBps'}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="Downlink:"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding CommData.Downlink, StringFormat='{}{0} MBps'}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="Active Transponders:"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding CommData.ActiveTransponders}" />
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Spy"
+                                 Visibility="{Binding SpyVisibility}">
+                            <Image Source="{Binding SpyImage}"/>
+                        </TabItem>
+                    </TabControl> 
+                    
+                </Grid>
+            </DataTemplate>
+        </ContentControl.Resources>
+    </ContentControl>
+</UserControl>
